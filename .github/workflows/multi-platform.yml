@@ -1,0 +1,69 @@
+name: Multi-Platform Testing Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  PROJECT_NAME: GitHub Actions ICE4
+
+jobs:
+  ubuntu-job:
+    name: Ubuntu Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        run: |
+          echo "Running on Ubuntu"
+          echo "Project: $PROJECT_NAME"
+          uname -a
+
+      - name: Create and display file
+        run: |
+          echo "This file was created on Ubuntu." > ubuntu-output.txt
+          cat ubuntu-output.txt
+
+  windows-job:
+    name: Windows Job
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        shell: pwsh
+        run: |
+          Write-Host "Running on Windows"
+          Write-Host "Project: $env:PROJECT_NAME"
+          systeminfo
+
+      - name: Create and display file
+        shell: pwsh
+        run: |
+          "This file was created on Windows." | Out-File windows-output.txt
+          Get-Content windows-output.txt
+
+  macos-job:
+    name: macOS Job
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print operating system information
+        run: |
+          echo "Running on macOS"
+          echo "Project: $PROJECT_NAME"
+          uname -a
+
+      - name: Create and display file
+        run: |
+          echo "This file was created on macOS." > macos-output.txt
+          cat macos-output.txt
