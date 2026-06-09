@@ -1,0 +1,61 @@
+name: Dependent Jobs Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_NAME: GitHub Actions ICE4
+
+jobs:
+  build:
+    name: Build Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Start build
+        run: echo "Building application..."
+
+      - name: Complete build
+        run: |
+          echo "Project: $PROJECT_NAME"
+          sleep 5
+          echo "Build completed successfully."
+
+  test:
+    name: Test Job
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Start testing
+        run: echo "Running tests..."
+
+      - name: Complete testing
+        run: |
+          sleep 5
+          echo "All tests passed successfully."
+
+  deploy:
+    name: Deploy Job
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Prepare deployment
+        run: |
+          echo "Preparing deployment..."
+          sleep 3
+
+      - name: Deploy application
+        run: |
+          echo "Deploying application..."
+          sleep 5
+          echo "Deployment completed successfully."
